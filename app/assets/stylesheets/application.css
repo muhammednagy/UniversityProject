@@ -16,5 +16,6 @@
 
 *= require_self
  */
-@import "general.scss";
+@import "~bootstrap";
+@import "general";
 
