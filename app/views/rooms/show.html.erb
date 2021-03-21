@@ -14,13 +14,16 @@
         <div class="chat-message-container">
           <div class="row no-gutters">
             <div class="col-auto text-center">
-              <img src="<%= room_message.user.gravatar_url %>" class="avatar" alt="">
+              <img src="<%= room_message.user.gravatar_url %>" class="avatar" alt="" title="<%= room_message.user.username %>">
             </div>
 
             <div class="col">
               <div class="message-content">
                 <p class="mb-1">
                   <%= room_message.message %>
+                  <% if room_message.image.attached? %>
+                    <%= image_tag room_message.image.variant(resize: "200x200"), style: "display: block" %>
+                  <% end %>
                 </p>
 
                 <div class="text-right">
@@ -36,13 +39,14 @@
     </div>
 
     <%= simple_form_for @room_message, remote: true do |form| %>
-      <div class="input-group mb-3">
+      <div class="input-group mb-4">
         <%= form.input :message, as: :string,
                        wrapper: false,
                        label: false,
                        input_html: {
                          class: 'chat-input'
                        } %>
+        <%= form.file_field :image, class: "form-image", accept: 'image/png,image/gif,image/jpeg', label: 'Upload Attachment'%>
         <div class="input-group-append">
           <%= form.submit "Send", class: 'btn btn-primary chat-input' %>
         </div>
@@ -57,12 +61,13 @@
   <div class="chat-message-container">
     <div class="row no-gutters">
       <div class="col-auto text-center">
-        <img src="" class="avatar" alt="" data-role="user-avatar">
+        <img src="" class="avatar" alt="" title="" data-role="user-avatar">
       </div>
 
       <div class="col">
-        <div class="message-content">
+        <div class="message-content" data-role="message-div">
           <p class="mb-1" data-role="message-text"></p>
+          <a target="_blank" data-role="message-image-link" href=""><img class="mb-1" data-role="message-image" src="" alt=""></a>
 
           <div class="text-right">
             <small data-role="message-date"></small>
